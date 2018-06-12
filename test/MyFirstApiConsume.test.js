@@ -22,8 +22,8 @@ describe('First Api Tests', () => {
         return agent.get('https://httpbin.org/get')
             .query(query)
             .then((response) => {
-            expect(response.status).to.equal(statusCode.OK);
-            expect(response.body.args).to.eql(query);
+                expect(response.status).to.equal(statusCode.OK);
+                expect(response.body.args).to.eql(query);
             });
     });
 
@@ -38,8 +38,8 @@ describe('First Api Tests', () => {
             .post('https://httpbin.org/post')
             .send(body)
             .then((response) => {
-            expect(response.status).to.equal(statusCode.OK);
-            expect(response.body.json).to.eql(body);
+                expect(response.status).to.equal(statusCode.OK);
+                expect(response.body.json).to.eql(body);
             });
     });
 
@@ -54,8 +54,8 @@ describe('First Api Tests', () => {
             .del('https://httpbin.org/delete')
             .send(body)
             .then((response) => {
-            expect (response.status).to.equal(statusCode.OK);
-            expect(response.body.json).to.eql(body);
+                expect (response.status).to.equal(statusCode.OK);
+                expect(response.body.json).to.eql(body);
             });
 
     });
@@ -71,8 +71,8 @@ describe('First Api Tests', () => {
             .put('https://httpbin.org/put')
             .send(body)
             .then((response) => {
-            expect (response.status).to.equal(statusCode.OK);
-            expect(response.body.json).to.eql(body);
+                expect (response.status).to.equal(statusCode.OK);
+                expect(response.body.json).to.eql(body);
             });
 
     });
@@ -88,8 +88,8 @@ describe('First Api Tests', () => {
             .patch('https://httpbin.org/patch')
             .send(body)
             .then((response) => {
-            expect (response.status).to.equal(statusCode.OK);
-            expect(response.body.json).to.eql(body);
+                expect (response.status).to.equal(statusCode.OK);
+                expect(response.body.json).to.eql(body);
             });
 
     });
@@ -105,7 +105,7 @@ describe('First Api Tests', () => {
             .head('https://httpbin.org/get')
             .query(query)
             .then((response) => {
-            expect (response.status).to.equal(statusCode.OK);
+                expect (response.status).to.equal(statusCode.OK);
             });
 
     });
