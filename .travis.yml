@@ -1,11 +1,14 @@
 language: node_js
 cache:
- directories:
- - node_modules
+  directories:
+  - node_modules
 notifications:
- email: false
+  email: false
 node_js:
 - '7'
 branches:
- except:
- - /^v\d+\.\d+\.\d+$/
+  except:
+  - "/^v\\d+\\.\\d+\\.\\d+$/"
+env:
+  global:
+    secure: LGqsFqtMA5gJTpQKiuPg7F+WSLFpLV5JM4FvK18pCcRs2JsgFCidyhFKcy2CmU/C6UrzEtEtt/hBhzWM/Hzo8vZCmA5P9fw4NabGJx6Q9vMU4C4NyE9EREPM0cjCHhRpX2q41oSOt3/+l6ufpdyH1x2EwfynnhCUvNpF7dl3zXsoe/u4BVD7zJHUezbCe7NoLt2/2aQBqmSS0BifG2N+cQN9QthRLBznAl7RhyUmt5EQWml5kC4+JXOnBukHbJLylN3UBhMH0bF5M0GaweSccixabLeFPkWbYDgxWv3KFWdEubBzJmoX8TPxzVI7ca3ERFd+PzP72RMAgLAXyBSiMLJ3nAx65ty+fWgsTejAqChiZGvOL9A1yMtpX03B0lPU7qiZENpXLZCTdVMOI1gd7eqngpq7g30TKf1L6UE956SZlQrQvrZHHSeVBO86ezrkDjNmIYmraZIfouePGAWq/BdgjTziS5pD3dCC+TVRkS6xledXZteHWJa0p+7E2SMBS1zBZUGyArEyX56pEf5vvAxYArf0BdWs8v1w1vyNHpzPZRdOvjmNnHk3L5hrBCt/wln/sLtlArZyEFTfdM3EVVbTNDF+bA3o4S8UM1D4KePtBAJ6mVqjSCB44MU4ZFqUGROKqVsOe8qjLKTBUz6USAXEj/7E1US5hkRp7DwTbbI=
