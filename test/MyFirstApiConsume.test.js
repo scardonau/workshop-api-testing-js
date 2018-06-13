@@ -10,6 +10,7 @@ describe('First Api Tests', () => {
     expect(response.body).to.have.property('origin');
   }));
 
+
   it('Consume GET Service with query parameters', () => {
     const query = {
       name: 'John',
