@@ -21,6 +21,7 @@ describe('Consuming get services from github API', () => {
 
     before(() => {
       const getUserQuery = agent.get(`${baseUrl}/users/${userName}`)
+        .auth('token', process.env.ACCESS_TOKEN)
         .then((response) => {
           user = response.body;
         });
@@ -45,6 +46,7 @@ describe('Consuming get services from github API', () => {
 
     before(() => {
       const getUserRepositoryQuery = agent.get(`${baseUrl}/users/${userName}/repos`)
+        .auth('token', process.env.ACCESS_TOKEN)
         .then((response) => {
           const repoArray = response.body;
           foundRepo = repoArray.find(repo => repo.name === query.name);
@@ -65,6 +67,7 @@ describe('Consuming get services from github API', () => {
 
     before(() => {
       const downloadQuery = agent.get(repoDownloadUrl)
+        .auth('token', process.env.ACCESS_TOKEN)
         .buffer(true)
         .then((response) => {
           repoZip = response.text;
@@ -89,6 +92,7 @@ describe('Consuming get services from github API', () => {
 
     before(() => {
       const getContentsQuery = agent.get(repoContentsUrl)
+        .auth('token', process.env.ACCESS_TOKEN)
         .then((response) => {
           contentsArray = response.body;
           readme = contentsArray.find(file => file.name === query.name);
@@ -107,6 +111,7 @@ describe('Consuming get services from github API', () => {
 
       before(() => {
         const downloadReadmeQuery = agent.get(readme.download_url)
+          .auth('token', process.env.ACCESS_TOKEN)
           .then((response) => {
             readmeContent = response.text;
           });
