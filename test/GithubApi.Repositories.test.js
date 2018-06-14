@@ -109,15 +109,11 @@ describe('Consuming get services from github API', () => {
       let readmeContent;
       const expectedMD5 = '8a406064ca4738447ec522e639f828bf';
 
-      before(() => {
-        const downloadReadmeQuery = agent.get(readme.download_url)
-          .auth('token', process.env.ACCESS_TOKEN)
-          .then((response) => {
-            readmeContent = response.text;
-          });
-
-        return downloadReadmeQuery;
-      });
+      before(() => agent.get(readme.download_url)
+        .auth('token', process.env.ACCESS_TOKEN)
+        .then((response) => {
+          readmeContent = response.text;
+        }));
 
       it('should match the expected md5', () => {
         expect(md5(readmeContent)).to.equal(expectedMD5);
