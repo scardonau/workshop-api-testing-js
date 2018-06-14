@@ -1,5 +1,4 @@
 const agent = require('superagent-promise')(require('superagent'), Promise);
-const statusCode = require('http-status-codes');
 const chai = require('chai');
 const chaiSubset = require('chai-subset');
 const md5 = require('md5');
@@ -10,43 +9,52 @@ const baseUrl = 'https://api.github.com';
 const repoContentsUrl = 'https://api.github.com/repos/aperdomob/jasmine-awesome-report/contents/';
 
 describe('Consuming get services from github API', () => {
-  const user = 'aperdomob';
+  const userName = 'aperdomob';
 
-  describe(`When we get the user ${user}`, () => {
-    it('Should display information correctly', () => {
-      const query = {
-        name: 'Alejandro Perdomo',
-        company: 'PSL',
-        location: 'Colombia'
-      };
+  describe(`When we get the user ${userName}`, () => {
+    let user;
+    const query = {
+      name: 'Alejandro Perdomo',
+      company: 'PSL',
+      location: 'Colombia'
+    };
 
-      return agent.get(`${baseUrl}/users/${user}`)
+    before(() => {
+      const getUserQuery = agent.get(`${baseUrl}/users/${userName}`)
         .then((response) => {
-          expect(response.status).to.equal(statusCode.OK);
-          expect(response.body).to.include(query);
+          user = response.body;
         });
+
+      return getUserQuery;
+    });
+
+    it('Should display information correctly', () => {
+      expect(user).to.include(query);
     });
   });
 
-
   describe('When we get the repositories', () => {
     const expectedRepoName = 'jasmine-awesome-report';
+    let foundRepo;
+    const query = {
+      name: expectedRepoName,
+      description: 'An awesome html report for Jasmine',
+      full_name: 'aperdomob/jasmine-awesome-report',
+      private: false
+    };
 
-    it(`The ${expectedRepoName} should be present`, () => {
-      const query = {
-        name: expectedRepoName,
-        description: 'An awesome html report for Jasmine',
-        full_name: 'aperdomob/jasmine-awesome-report',
-        private: false
-      };
-
-      return agent.get(`${baseUrl}/users/${user}/repos`)
+    before(() => {
+      const getUserRepositoryQuery = agent.get(`${baseUrl}/users/${userName}/repos`)
         .then((response) => {
-          expect(response.status).to.equal(statusCode.OK);
           const repoArray = response.body;
-          const foundRepo = repoArray.find(repo => repo.name === query.name);
-          expect(foundRepo).to.include(query);
+          foundRepo = repoArray.find(repo => repo.name === query.name);
         });
+
+      return getUserRepositoryQuery;
+    });
+
+    it(`The ${expectedRepoName} repo should be present`, () => {
+      expect(foundRepo).to.include(query);
     });
   });
 
