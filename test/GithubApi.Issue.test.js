@@ -24,6 +24,7 @@ describe('Given a user logged in Github', () => {
 
   describe('When we get his repos list', () => {
     before(() => agent.get(reposUrl)
+      .auth('token', process.env.ACCESS_TOKEN)
       .then((response) => {
         [firstRepository] = response.body;
       }));
