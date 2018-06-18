@@ -12,9 +12,9 @@ describe('Given a user logged in github', () => {
 
   function putQuery() {
     return agent.put(`${baseUrl}/user/following/${userName}`)
-      .auth('token', process.env.ACCESS_TOKEN)
-      .then(response => response);
+      .auth('token', process.env.ACCESS_TOKEN);
   }
+
   function getQuery() {
     return agent.get(`${baseUrl}/user/following`)
       .auth('token', process.env.ACCESS_TOKEN)
@@ -24,7 +24,6 @@ describe('Given a user logged in github', () => {
   describe(`When we try to follow ${userName}`, () => {
     before(async () => {
       queryResponse = await putQuery();
-      return true;
     });
 
     it('Then we should get a valid response', () => {
@@ -32,23 +31,23 @@ describe('Given a user logged in github', () => {
       expect(queryResponse.body).to.eql({});
     });
 
-    let foundUser;
+    describe('And if we check the followed ussers', () => {
+      let foundUser;
 
-    before(async () => {
-      const followedUsers = await getQuery();
-      foundUser = followedUsers.find(user => user.login === userName);
-      return true;
-    });
+      before(async () => {
+        const followedUsers = await getQuery();
+        foundUser = followedUsers.find(user => user.login === userName);
+      });
 
-    it(`And should be folowing ${userName}`, () => {
-      expect(foundUser.login).to.equal(userName);
+      it(`We should be following ${userName}`, () => {
+        expect(foundUser.login).to.equal(userName);
+      });
     });
   });
 
   describe('If we try to follow him again', () => {
     before(async () => {
       queryResponse = await putQuery();
-      return true;
     });
 
     it('We can verify if put method is idempotent', () => {
@@ -56,16 +55,17 @@ describe('Given a user logged in github', () => {
       expect(queryResponse.body).to.eql({});
     });
 
-    let foundUser;
+    describe('And when we check the followed users', () => {
+      let foundUser;
 
-    before(async () => {
-      const followedUsers = await getQuery();
-      foundUser = followedUsers.find(user => user.login === userName);
-      return true;
-    });
+      before(async () => {
+        const followedUsers = await getQuery();
+        foundUser = followedUsers.find(user => user.login === userName);
+      });
 
-    it(`And should still be folowing ${userName}`, () => {
-      expect(foundUser.login).to.equal(userName);
+      it(`It should still be following ${userName}`, () => {
+        expect(foundUser.login).to.equal(userName);
+      });
     });
   });
 });

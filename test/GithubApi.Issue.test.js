@@ -28,6 +28,7 @@ describe('Given a user logged in Github', () => {
       .then((response) => {
         [firstRepository] = response.body;
       }));
+
     it('At least one repo must exist', () => {
       expect(firstRepository).to.have.a.property('name');
     });
@@ -43,6 +44,7 @@ describe('Given a user logged in Github', () => {
       .then((response) => {
         createdIssue = response.body;
       }));
+
     it(`Should create an issue with the title ${expectedTitle} and empty body`, () => {
       expect(createdIssue.body).to.equal(null);
       expect(createdIssue.title).to.equal(expectedTitle);
