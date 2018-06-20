@@ -10,6 +10,7 @@ describe('When we try to get all the users from github', () => {
 
   before(() => agent
     .get(usersUrl)
+    .auth('token', process.env.ACCESS_TOKEN)
     .use(responseTime((err, time) => {
       getResponseTime = time;
     })));
