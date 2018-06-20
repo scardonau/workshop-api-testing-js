@@ -13,13 +13,13 @@ describe('Given an old repo that changed name', () => {
         headQueryResponse = err;
       }));
 
-    it('We verify that the repo did change, and get the new url', () => {
+    it('the the reponse should show that the repo has a new url', () => {
       expect(headQueryResponse.status).to.equal(statusCode.MOVED_PERMANENTLY);
       expect(headQueryResponse.response.headers.location).to.equal(newUrl);
     });
   });
 
-  describe('And if we visit the old repo via GET service', () => {
+  describe('when we visit the old repo via GET service', () => {
     let getQueryResponse;
 
     before(() => agent
@@ -28,7 +28,7 @@ describe('Given an old repo that changed name', () => {
         getQueryResponse = response;
       }));
 
-    it('The repo must redirect correctly to the new url', () => {
+    it('then the repo must redirect correctly to a new url', () => {
       expect(getQueryResponse.status).to.equal(statusCode.OK);
     });
   });
