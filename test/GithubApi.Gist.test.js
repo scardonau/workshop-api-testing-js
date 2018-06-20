@@ -18,7 +18,6 @@ describe('Given a user logged in GitHub', () => {
     }
   };
 
-
   describe('When the user creates a gist', () => {
     let queryResponse;
     let createdGist;
