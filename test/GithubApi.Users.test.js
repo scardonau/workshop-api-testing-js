@@ -8,15 +8,12 @@ describe('Given a user logged in github', () => {
   const usersUrl = 'https://api.github.com/users';
   describe('when gets all the users from github', () => {
     let getQueryTime;
-    let allUsersResponse;
+    let allUsers;
 
-    before(async () => {
-      await agent
+    before(() => {
+      allUsers = agent
         .get(usersUrl)
-        .auth('token', process.env.ACCESS_TOKEN)
-        .then((response) => {
-          allUsersResponse = response;
-        });
+        .auth('token', process.env.ACCESS_TOKEN);
 
       return agent
         .get(usersUrl)
@@ -31,39 +28,43 @@ describe('Given a user logged in github', () => {
     });
 
     it('and it should bring 30 users by default', () => {
-      expect(allUsersResponse.body.length).to.equal(30);
+      allUsers.then((allUsersResponse) => {
+        expect(allUsersResponse.body.length).to.equal(30);
+      });
     });
   });
 
   describe('when we filter the users to a number of 10', () => {
-    let tenUsersResponse;
+    let tenUsers;
 
-    before(() => agent
-      .get(usersUrl)
-      .auth('token', process.env.ACCESS_TOKEN)
-      .query({ per_page: 10 })
-      .then((response) => {
-        tenUsersResponse = response;
-      }));
+    before(() => {
+      tenUsers = agent
+        .get(usersUrl)
+        .auth('token', process.env.ACCESS_TOKEN)
+        .query({ per_page: 10 });
+    });
 
     it('then it should bring 10 users', () => {
-      expect(tenUsersResponse.body.length).to.equal(10);
+      tenUsers.then((tenUsersResponse) => {
+        expect(tenUsersResponse.body.length).to.equal(10);
+      });
     });
   });
 
   describe('when we filter the users to a number of 50', () => {
-    let fiftyUsersResponse;
+    let fiftyUsers;
 
-    before(() => agent
-      .get(usersUrl)
-      .auth('token', process.env.ACCESS_TOKEN)
-      .query({ per_page: 50 })
-      .then((response) => {
-        fiftyUsersResponse = response;
-      }));
+    before(() => {
+      fiftyUsers = agent
+        .get(usersUrl)
+        .auth('token', process.env.ACCESS_TOKEN)
+        .query({ per_page: 50 });
+    });
 
     it('then it should bring 50 users', () => {
-      expect(fiftyUsersResponse.body.length).to.equal(50);
+      fiftyUsers.then((fiftyUsersResponse) => {
+        expect(fiftyUsersResponse.body.length).to.equal(50);
+      });
     });
   });
 });
