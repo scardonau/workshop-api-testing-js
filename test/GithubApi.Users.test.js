@@ -8,12 +8,15 @@ describe('Given a user logged in github', () => {
   const usersUrl = 'https://api.github.com/users';
   describe('when gets all the users from github', () => {
     let getQueryTime;
-    let allUsers;
+    let allUsersResponse;
 
-    before(() => {
-      allUsers = agent
+    before(async () => {
+      await agent
         .get(usersUrl)
-        .auth('token', process.env.ACCESS_TOKEN);
+        .auth('token', process.env.ACCESS_TOKEN)
+        .then((response) => {
+          allUsersResponse = response;
+        });
 
       return agent
         .get(usersUrl)
@@ -28,43 +31,39 @@ describe('Given a user logged in github', () => {
     });
 
     it('and it should bring 30 users by default', () => {
-      allUsers.then((allUsersResponse) => {
-        expect(allUsersResponse.body.length).to.equal(30);
-      });
+      expect(allUsersResponse.body.length).to.equal(30);
     });
   });
 
   describe('when we filter the users to a number of 10', () => {
-    let tenUsers;
+    let tenUsersResponse;
 
-    before(() => {
-      tenUsers = agent
-        .get(usersUrl)
-        .auth('token', process.env.ACCESS_TOKEN)
-        .query({ per_page: 10 });
-    });
+    before(() => agent
+      .get(usersUrl)
+      .auth('token', process.env.ACCESS_TOKEN)
+      .query({ per_page: 10 })
+      .then((response) => {
+        tenUsersResponse = response;
+      }));
 
     it('then it should bring 10 users', () => {
-      tenUsers.then((tenUsersResponse) => {
-        expect(tenUsersResponse.body.length).to.equal(10);
-      });
+      expect(tenUsersResponse.body.length).to.equal(10);
     });
   });
 
   describe('when we filter the users to a number of 50', () => {
-    let fiftyUsers;
+    let fiftyUsersResponse;
 
-    before(() => {
-      fiftyUsers = agent
-        .get(usersUrl)
-        .auth('token', process.env.ACCESS_TOKEN)
-        .query({ per_page: 50 });
-    });
+    before(() => agent
+      .get(usersUrl)
+      .auth('token', process.env.ACCESS_TOKEN)
+      .query({ per_page: 50 })
+      .then((response) => {
+        fiftyUsersResponse = response;
+      }));
 
     it('then it should bring 50 users', () => {
-      fiftyUsers.then((fiftyUsersResponse) => {
-        expect(fiftyUsersResponse.body.length).to.equal(50);
-      });
+      expect(fiftyUsersResponse.body.length).to.equal(50);
     });
   });
 });
