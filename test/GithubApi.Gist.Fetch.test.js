@@ -35,7 +35,6 @@ describe('Given a user logged in GitHub using isomorphic-fetch', () => {
       return response.json();
     }).then((body) => {
       createdGist = body;
-      return body;
     }));
 
     it('Then the gist should be created', () => {
@@ -44,55 +43,47 @@ describe('Given a user logged in GitHub using isomorphic-fetch', () => {
     });
 
     describe('And when we try to access the gist', () => {
-      let getGistQuery;
+      let getGistQueryResponse;
 
-      before(() => {
-        getGistQuery = fetch(createdGist.url, {
-          method: 'GET',
-          headers: authenticationHeader
-        });
-
-        return getGistQuery;
-      });
+      before(() => fetch(createdGist.url, {
+        method: 'GET',
+        headers: authenticationHeader
+      }).then((response) => {
+        getGistQueryResponse = response;
+      }));
 
       it('The gist must exist', () => {
-        getGistQuery.then(response =>
-          expect(response.status).to.equal(statusCode.OK));
+        expect(getGistQueryResponse.status).to.equal(statusCode.OK);
       });
-    });
 
-    describe('Finally, when we delete the gist', () => {
-      let deleteQueryResponse;
+      describe('Finally, when we delete the gist', () => {
+        let deleteQueryResponse;
 
+        before(() => fetch(createdGist.url, {
+          method: 'DELETE',
+          headers: authenticationHeader
+        }).then((response) => {
+          deleteQueryResponse = response;
+        }));
 
-      before(() => fetch(createdGist.url, {
-        method: 'DELETE',
-        headers: authenticationHeader
-      }).then((response) => {
-        deleteQueryResponse = response;
-        return deleteQueryResponse;
-      }));
-
-
-      it('The gist must be deleted', () => {
-        expect(deleteQueryResponse.status).to.equal(statusCode.NO_CONTENT);
+        it('The gist must be deleted', () => {
+          expect(deleteQueryResponse.status).to.equal(statusCode.NO_CONTENT);
+        });
       });
-    });
 
-    describe('And if we try to access the gist', () => {
-      let gistNotFoundQuery;
+      describe('And if we try to access the gist', () => {
+        let gistNotFoundQuery;
 
-      before(() => fetch(createdGist.url, {
-        headers: authenticationHeader
-      }).then((response) => {
-        gistNotFoundQuery = response;
-        return gistNotFoundQuery;
-      }));
+        before(() => fetch(createdGist.url, {
+          headers: authenticationHeader
+        }).then((response) => {
+          gistNotFoundQuery = response;
+        }));
 
-      it('The gist must not be accesible anymore', () => {
-        expect(gistNotFoundQuery.status).to.equal(statusCode.NOT_FOUND);
+        it('The gist must not be accesible anymore', () => {
+          expect(gistNotFoundQuery.status).to.equal(statusCode.NOT_FOUND);
+        });
       });
     });
   });
 });
-
